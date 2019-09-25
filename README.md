@@ -35,7 +35,8 @@ There are five exercises with tests. Your job is to figure out how to make all t
 - You should only modify `Exercise1/2/3/4/5.scala`. 
     - Do not change the response type provided. 
     - The requests have already been batched for you. 
-    
+- The batches should be run *concurrently and the result needs to be maintain order*.  This shouldn't really change your solution unless you have gone in a very unexpected direction.
+
 It does not matter what string you jam into ServiceError for purposes of the tests.
 
 * Exercise 1 
