@@ -6,8 +6,7 @@ import mf.models._
 
 import scala.concurrent.{ExecutionContext, Future}
 
-/**
-  * Should fail if any call to Http.getBatch fails
+/** Should fail if any call to Http.getBatch fails
   * Should fail if any BatchResponse.response element fails to parse into a ParsedResponse using the
   * ParsedResponse.parser
   */
@@ -19,8 +18,10 @@ class Exercise1(implicit ec: ExecutionContext) {
     val batches = requests.grouped(batchSize).toList.map(BatchRequest.apply)
     batches
       .traverse(Http.getBatch)
-      .map(_.flatMap(r => r.responses).map(_.value).map(ParsedResponse.parser))
-      .map(_.traverse(_.toEither))
-      .map(_.leftMap(ex => ServiceError(ex.getMessage)))
+      .map {
+        _.flatMap(_.responses.map(_.value).map(ParsedResponse.parser))
+          .traverse(_.toEither)
+          .leftMap(ex => ServiceError(ex.getMessage))
+      }
   }
 }
