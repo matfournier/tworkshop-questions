@@ -19,3 +19,4 @@ project/plugins/project/
 .bloop
 .metals
 *.code-workspace
+/.bsp/sbt.json
